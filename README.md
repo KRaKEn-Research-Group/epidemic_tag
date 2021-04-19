@@ -23,4 +23,12 @@ Zabawa w epidemicznego berka - coś podobnego do chowanego OpenAI:
 
 ### Questions
 
-- czy umieszczać agentów w konkretnych pozycjach czy losowych?
+- Czy umieszczać agentów w konkretnych pozycjach czy losowych?
+- Czy definiujemy stałą liczbę agentów?
+- W jaki sposób agent zostaje uznany za złapanego i staje się berkiem? Np. przy dotknięciu w dowolnym miejscu czy dotknięcie w określonym obszarze.
+- Czy umieszczamy w późniejszym etapie przeszkody? Czy dajemy możliwość np. schowania się przed berkami?
+- Czy jeśli umożliwimy chowanie się, to czy dopuszczamy możliwość, że ktoś nie zostanie złapany.
+
+## Interesting papers
+
+[Multi-Agent Game Abstraction via Graph Attention Neural Network](https://arxiv.org/abs/1911.10715)
