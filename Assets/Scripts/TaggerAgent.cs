@@ -6,16 +6,14 @@ using Unity.MLAgents.Sensors;
 
 public class TaggerAgent : Agent
 {
-
     public GameObject target;
     public GameObject agentObject;
     public float strength = 350f;
 
     Rigidbody agentRigidbody;
     Vector3 orientation;
-    float jumpCoolDown;
-    int totalJumps = 20;
-    int jumpsLeft = 20;
+    int totalSteps = 20;
+    int stepsLeft = 20;
 
     EnvironmentParameters defaultParams;
 
@@ -41,14 +39,13 @@ public class TaggerAgent : Agent
             vectorAction[i] = Mathf.Clamp(vectorAction[i], -1f, 1f);
         }
         float x = vectorAction[0];
-        float y = ScaleAction(vectorAction[1], 0, 1);
-        float z = vectorAction[2];
-        agentRigidbody.AddForce(new Vector3(x, y + 1, z) * strength);
+        float y = 0f;
+        float z = vectorAction[1];
+        agentRigidbody.AddForce(new Vector3(x, y, z) * strength);
 
         AddReward(-0.05f * (
             vectorAction[0] * vectorAction[0] + 
-            vectorAction[1] * vectorAction[1] + 
-            vectorAction[2] * vectorAction[2]) / 3f);
+            vectorAction[1] * vectorAction[1]) / 2f);
         
         orientation = new Vector3(x, y, z);
     }
@@ -56,14 +53,13 @@ public class TaggerAgent : Agent
     public override void Heuristic(float[] actionsOut)
     {
         actionsOut[0] = Input.GetAxis("Horizontal");
-        actionsOut[1] = Input.GetKey(KeyCode.Space) ? 1.0f : 0.0f;
-        actionsOut[2] = Input.GetAxis("Vertical");
+        actionsOut[1] = Input.GetAxis("Vertical");
     }
 
     public override void OnEpisodeBegin()
     {
         gameObject.transform.localPosition = new Vector3(
-            (1 - 2 * Random.value) * 5, 2, (1 - 2 * Random.value) * 5
+            (1 - 2 * Random.value) * 5, 0.5f, (1 - 2 * Random.value) * 5
         );
         agentRigidbody.velocity = Vector3.zero;
         var environment = gameObject.transform.parent.gameObject;
@@ -72,21 +68,18 @@ public class TaggerAgent : Agent
         {
             t.Respawn();
         }
-        jumpsLeft = totalJumps;
+        stepsLeft = totalSteps;
         ResetParameters();
     }
 
     private void FixedUpdate()
     {
-        if (Physics.Raycast(transform.position, new Vector3(0f, -1f, 0f), 0.51f) && jumpCoolDown <= 0f)
+        if (Physics.Raycast(transform.position, new Vector3(0f, -1f, 0f), 0.51f))
         {
             RequestDecision();
-            jumpsLeft -= 1;
-            jumpCoolDown = 0.1f;
+            stepsLeft -= 1;
             agentRigidbody.velocity = default(Vector3);
         }
-
-        jumpCoolDown -= Time.fixedDeltaTime;
 
         if (gameObject.transform.position.y < -1)
         {
@@ -102,13 +95,12 @@ public class TaggerAgent : Agent
             EndEpisode();
             return;
         }
-        if (jumpsLeft == 0)
+        if  (stepsLeft == 0)
         {
             EndEpisode();
         }
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (orientation.magnitude > float.Epsilon)
