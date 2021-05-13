@@ -6,14 +6,14 @@ using Unity.MLAgents.Sensors;
 
 public class TaggerAgent : Agent
 {
+
     public GameObject target;
     public GameObject agentObject;
-    public float strength = 350f;
 
     Rigidbody agentRigidbody;
     Vector3 orientation;
-    int totalSteps = 20;
-    int stepsLeft = 20;
+    int totalSteps = 100;
+    int stepsLeft = 100;
 
     EnvironmentParameters defaultParams;
 
@@ -38,10 +38,10 @@ public class TaggerAgent : Agent
         {
             vectorAction[i] = Mathf.Clamp(vectorAction[i], -1f, 1f);
         }
+
         float x = vectorAction[0];
         float y = 0f;
         float z = vectorAction[1];
-        agentRigidbody.AddForce(new Vector3(x, y, z) * strength);
 
         AddReward(-0.05f * (
             vectorAction[0] * vectorAction[0] + 
@@ -58,17 +58,22 @@ public class TaggerAgent : Agent
 
     public override void OnEpisodeBegin()
     {
+        Debug.Log("on episode begin tagger");
         gameObject.transform.localPosition = new Vector3(
             (1 - 2 * Random.value) * 5, 0.5f, (1 - 2 * Random.value) * 5
         );
         agentRigidbody.velocity = Vector3.zero;
+
         var environment = gameObject.transform.parent.gameObject;
         var targets = environment.GetComponentsInChildren<Target>();
+
         foreach (var t in targets)
         {
             t.Respawn();
         }
+
         stepsLeft = totalSteps;
+
         ResetParameters();
     }
 
@@ -95,9 +100,31 @@ public class TaggerAgent : Agent
             EndEpisode();
             return;
         }
+
         if  (stepsLeft == 0)
         {
+            Debug.Log("steps left 0 tagger");
             EndEpisode();
+            return;
+        }
+
+        var environment = gameObject.transform.parent.gameObject;
+        var targets = environment.GetComponentsInChildren<Target>();
+
+        int howMany = 0;
+        foreach (var t in targets)
+        {
+            if (t.GetComponent<MeshRenderer>().material.color == Color.green)
+            {
+                howMany = howMany + 1;
+            }
+        }
+
+        if (howMany == 0)
+        {
+            Debug.Log("how many == 0 tagger");
+            EndEpisode();
+            return;
         }
     }
 

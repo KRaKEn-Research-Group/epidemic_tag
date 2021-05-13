@@ -6,20 +6,24 @@ using Unity.MLAgents.Sensors;
 
 public class Target : Agent
 {
+
     public GameObject tagger;
     public GameObject agentObject;
     public float strength = 350f;
 
     Rigidbody agentRigidbody;
     Vector3 orientation;
-    // float jumpCoolDown;
-    int totalSteps = 20;
-    int stepsLeft = 20;
+    int totalSteps = 100;
+    int stepsLeft = 100;
+
+    static int nrOfAgents = 0;
 
     EnvironmentParameters defaultParams;
 
     public override void Initialize()
     {
+        nrOfAgents = nrOfAgents + 1;
+
         agentRigidbody = gameObject.GetComponent<Rigidbody>();
         orientation = Vector3.zero;
         defaultParams = Academy.Instance.EnvironmentParameters;
@@ -40,10 +44,8 @@ public class Target : Agent
             vectorAction[i] = Mathf.Clamp(vectorAction[i], -1f, 1f);
         }
         float x = vectorAction[0];
-        // float y = ScaleAction(vectorAction[1], 0, 1);
         float y = 0f;
         float z = vectorAction[1];
-        agentRigidbody.AddForce(new Vector3(x, y, z) * strength);
 
         AddReward(0.05f * (
             vectorAction[0] * vectorAction[0] + 
@@ -56,14 +58,18 @@ public class Target : Agent
     public override void Heuristic(float[] actionsOut)
     {
         actionsOut[0] = Input.GetAxis("Horizontal");
-        // actionsOut[1] = Input.GetKey(KeyCode.Space) ? 1.0f : 0.0f;
         actionsOut[1] = Input.GetAxis("Vertical");
     }
 
     public override void OnEpisodeBegin()
     {
+        Debug.Log("on episode begin - target");
+
+        MeshRenderer renderer = agentObject.GetComponent<MeshRenderer>();
+        renderer.material.color = Color.green;
+
         gameObject.transform.localPosition = new Vector3(
-            (1 - 2 * Random.value) * 5, 0.5f, (1 - 2 * Random.value) * 5
+            (1 - 2 * UnityEngine.Random.value) * 5, 0.5f, (1 - 2 * UnityEngine.Random.value) * 5
         );
         agentRigidbody.velocity = Vector3.zero;
         var environment = gameObject.transform.parent.gameObject;
@@ -82,11 +88,8 @@ public class Target : Agent
         {
             RequestDecision();
             stepsLeft -= 1;
-            // jumpCoolDown = 0.1f;
             agentRigidbody.velocity = default(Vector3);
         }
-
-        // jumpCoolDown -= Time.fixedDeltaTime;
 
         if (gameObject.transform.position.y < -1)
         {
@@ -105,10 +108,38 @@ public class Target : Agent
         if  (stepsLeft == 0)
         {
             EndEpisode();
+            return;
         }
+
+        var environment = gameObject.transform.parent.gameObject;
+        var targets = environment.GetComponentsInChildren<Target>();
+
+        int howMany = 0;
+        foreach (var t in targets)
+        {
+            if (t.GetComponent<MeshRenderer>().material.color == Color.green)
+            {
+                howMany = howMany + 1;
+            }
+        }
+
+        if (howMany == 0)
+        {
+            Debug.Log("how many == 0 target" + "\tDebug on " + agentObject.name);
+            // foreach (var t in targets)
+            // {
+            //     if (t.GetComponent<MeshRenderer>().material.color == Color.green)
+            //     {
+            //         t.EndEpisode();
+            //         return;
+            //     }
+            // }
+            EndEpisode();
+            return;
+        }
+
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (orientation.magnitude > float.Epsilon)
@@ -142,9 +173,9 @@ public class Target : Agent
     public void Respawn()
     {
         gameObject.transform.localPosition = new Vector3(
-            (1 - 2 * Random.value) * 5f,
+            (1 - 2 * UnityEngine.Random.value) * 5f,
             0.5f,
-            (1 - 2 * Random.value) * 5f
+            (1 - 2 * UnityEngine.Random.value) * 5f
         );
     }
 }
