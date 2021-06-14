@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 78377737}
   m_Layer: 0
   m_Name: Target
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,7 +157,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 909057757}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &78377732
 BoxCollider:
@@ -257,6 +257,7 @@ MonoBehaviour:
   tagger: {fileID: 881569835}
   agentObject: {fileID: 78377730}
   strength: 500
+  modelSource: {fileID: 5022602860645237092, guid: a90a34cd2b736ec4a8b6696d2094fbb5, type: 3}
 --- !u!114 &78377737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,10 +276,10 @@ MonoBehaviour:
     VectorActionSize: 06000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 3771dc9f6b9b9924c9f41a8ece4e27c2, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: TargetBehavior
   TeamId: 0
   m_UseChildSensors: 1
 --- !u!1 &388676992
@@ -394,7 +395,7 @@ GameObject:
   - component: {fileID: 453447030}
   m_Layer: 0
   m_Name: Target (3)
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -431,10 +432,10 @@ MonoBehaviour:
     VectorActionSize: 06000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 3771dc9f6b9b9924c9f41a8ece4e27c2, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: TargetBehavior
   TeamId: 0
   m_UseChildSensors: 1
 --- !u!114 &453447031
@@ -456,6 +457,7 @@ MonoBehaviour:
   tagger: {fileID: 881569835}
   agentObject: {fileID: 453447028}
   strength: 500
+  modelSource: {fileID: 5022602860645237092, guid: a90a34cd2b736ec4a8b6696d2094fbb5, type: 3}
 --- !u!54 &453447032
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -742,7 +744,7 @@ GameObject:
   - component: {fileID: 881569841}
   m_Layer: 0
   m_Name: Agent
-  m_TagString: Untagged
+  m_TagString: Tagger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -759,7 +761,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 909057757}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &881569837
 BoxCollider:
@@ -876,10 +878,10 @@ MonoBehaviour:
     VectorActionSize: 06000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: a90a34cd2b736ec4a8b6696d2094fbb5, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: TaggerBehavior
   TeamId: 0
   m_UseChildSensors: 1
 --- !u!1 &909057756
@@ -914,8 +916,8 @@ Transform:
   - {fileID: 945835641}
   - {fileID: 388676993}
   - {fileID: 1429480496}
-  - {fileID: 78377731}
   - {fileID: 881569836}
+  - {fileID: 78377731}
   - {fileID: 1952106508}
   - {fileID: 1351336065}
   - {fileID: 453447029}
@@ -1119,7 +1121,7 @@ GameObject:
   - component: {fileID: 1146611266}
   m_Layer: 0
   m_Name: Target (4)
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1156,10 +1158,10 @@ MonoBehaviour:
     VectorActionSize: 06000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 3771dc9f6b9b9924c9f41a8ece4e27c2, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: TargetBehavior
   TeamId: 0
   m_UseChildSensors: 1
 --- !u!114 &1146611267
@@ -1181,6 +1183,7 @@ MonoBehaviour:
   tagger: {fileID: 881569835}
   agentObject: {fileID: 1146611264}
   strength: 500
+  modelSource: {fileID: 5022602860645237092, guid: a90a34cd2b736ec4a8b6696d2094fbb5, type: 3}
 --- !u!54 &1146611268
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1373,7 +1376,7 @@ GameObject:
   - component: {fileID: 1351336066}
   m_Layer: 0
   m_Name: Target (2)
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1410,10 +1413,10 @@ MonoBehaviour:
     VectorActionSize: 06000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 3771dc9f6b9b9924c9f41a8ece4e27c2, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: TargetBehavior
   TeamId: 0
   m_UseChildSensors: 1
 --- !u!114 &1351336067
@@ -1435,6 +1438,7 @@ MonoBehaviour:
   tagger: {fileID: 881569835}
   agentObject: {fileID: 1351336064}
   strength: 500
+  modelSource: {fileID: 5022602860645237092, guid: a90a34cd2b736ec4a8b6696d2094fbb5, type: 3}
 --- !u!54 &1351336068
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1627,7 +1631,7 @@ GameObject:
   - component: {fileID: 1952106509}
   m_Layer: 0
   m_Name: Target (1)
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1664,10 +1668,10 @@ MonoBehaviour:
     VectorActionSize: 06000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 3771dc9f6b9b9924c9f41a8ece4e27c2, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: TargetBehavior
   TeamId: 0
   m_UseChildSensors: 1
 --- !u!114 &1952106510
@@ -1689,6 +1693,7 @@ MonoBehaviour:
   tagger: {fileID: 881569835}
   agentObject: {fileID: 1952106507}
   strength: 500
+  modelSource: {fileID: 5022602860645237092, guid: a90a34cd2b736ec4a8b6696d2094fbb5, type: 3}
 --- !u!54 &1952106511
 Rigidbody:
   m_ObjectHideFlags: 0

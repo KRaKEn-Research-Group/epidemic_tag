@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
+using Unity.Barracuda;
 using Unity.MLAgents.Sensors;
+
 
 public class Target : Agent
 {
@@ -10,6 +12,7 @@ public class Target : Agent
     public GameObject tagger;
     public GameObject agentObject;
     public float strength = 350f;
+    public NNModel modelSource;
 
     Rigidbody agentRigidbody;
     Vector3 orientation;
@@ -35,6 +38,11 @@ public class Target : Agent
     {
         sensor.AddObservation(tagger.transform.position);
         sensor.AddObservation(agentObject.transform.position);
+        var environment = gameObject.transform.parent.gameObject;
+        // var targets = environment.GetComponentsInChildren<>();
+        // for (var i = 0; i < targets.Length; i++) {
+        //     sensor.AddObservation(targets[i].transform.position);
+        // }
     }
 
     public override void OnActionReceived(float[] vectorAction)
@@ -158,14 +166,20 @@ public class Target : Agent
     void OnTriggerEnter(Collider collision)
     {
         var agent = collision.gameObject.GetComponent<Agent>();
-        if (agent != null)
+        // var agent_tag = collision.gameObject.tag;
+        if (collision.gameObject.CompareTag("Tagger"))
         {
             agent.AddReward(1f);
             AddReward(-1f);
 
             MeshRenderer renderer = agentObject.GetComponent<MeshRenderer>();
             renderer.material.color = Color.red;
+            agentObject.tag = "Tagger";
 
+            // NNModel model = ModelLoader.Load(modelSource);            
+            // NNModel model = Resources.Load("ML-Agents/Models/TaggerBehavior.onnx") as NNModel;
+
+            SetModel("TaggerBehavior", modelSource);
             Respawn();
         }
     }
